@@ -90,7 +90,7 @@ pub fn is_prime(x: i32) -> bool {
 /// # Examples
 ///
 /// ```
-/// use prime::is_prime;
+/// use prime::is_prime_why_not;
 /// 
 /// println!("{}", prime::is_prime_why_not(9));
 /// 
@@ -124,7 +124,7 @@ pub fn is_prime_why_not(x: i32) -> bool {
 /// # Examples
 ///
 /// ```
-/// use prime::is_prime;
+/// use prime::get_next_prime_number;
 /// 
 /// println!("{}", prime::get_next_prime_number(9));
 /// 
@@ -152,7 +152,7 @@ pub fn get_next_prime_number(n:i32) -> i32 {
 /// # Examples
 ///
 /// ```
-/// use prime::is_prime;
+/// use prime::prime_factorization;
 /// 
 /// println!("{:?}", prime::prime_factorization(168));
 /// 
