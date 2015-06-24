@@ -129,7 +129,7 @@ pub fn is_prime_why_not(x: i32) -> bool {
 /// println!("{}", prime::get_next_prime_number(9));
 /// 
 pub fn get_next_prime_number(n:i32) -> i32 {
-    println!("{}", n);
+    //println!("{}", n);
     let mut x: i32 = n;
     x += 1;
     while !is_prime(x) {
