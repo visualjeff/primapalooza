@@ -7,7 +7,7 @@ documentation = "https://github.com/visualjeff/primapalooza"
 homepage = "https://github.com/visualjeff/primapalooza"
 repository = "https://github.com/visualjeff/primapalooza.git"
 readme = "README.md"
-keywords = ["prime numbers", "greatest common factor", "gcf", "least common multiple", "lcm"]
+keywords = ["prime", "common", "factor", "gcf", "lcm"]
 license = "MIT"
 
 # [dependencies]
