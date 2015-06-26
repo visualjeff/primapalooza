@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 
 #![feature(test)]
-extern crate rand;
+//extern crate rand;
 extern crate test;
 
 use test::Bencher;

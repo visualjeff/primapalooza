@@ -2,6 +2,13 @@
 name = "primapalooza"
 version = "0.1.0"
 authors = ["visualjeff@linux.com"]
+description = "prime number calculations implemented in rust"
+documentation = "https://github.com/visualjeff/primapalooza"
+homepage = "https://github.com/visualjeff/primapalooza"
+repository = "https://github.com/visualjeff/primapalooza.git"
+readme = "README.md"
+keywords = ["prime numbers", "greatest common factor", "gcf", "least common multiple", "lcm"]
+license = "MIT"
 
-[dependencies]
-rand = "0.3.8"
+# [dependencies]
+# rand = "0.3.8"
