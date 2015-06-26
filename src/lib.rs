@@ -56,6 +56,12 @@ fn get_next_prime_number_test() {
 fn greatest_common_factor_test() {
     assert_eq!(6, greatest_common_factor(18,24));
 }
+
+#[test]
+fn least_common_multiple_test() {
+    assert_eq!(90, least_common_multiple(18,30));
+}
+
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -66,9 +72,9 @@ fn greatest_common_factor_test() {
 /// # Examples
 ///
 /// ```
-/// use prime::is_prime;
+/// use primapalooza::is_prime;
 /// 
-/// println!("{}", prime::is_prime(5));
+/// println!("{}", primapalooza::is_prime(5));
 /// 
 pub fn is_prime(x: i32) -> bool {
     let mut start: i64 = 2;
@@ -94,9 +100,9 @@ pub fn is_prime(x: i32) -> bool {
 /// # Examples
 ///
 /// ```
-/// use prime::is_prime_why_not;
+/// use primapalooza::is_prime_why_not;
 /// 
-/// println!("{}", prime::is_prime_why_not(9));
+/// println!("{}", primapalooza::is_prime_why_not(9));
 /// 
 pub fn is_prime_why_not(x: i32) -> bool {
     let mut start: i64 = 2;
@@ -128,9 +134,9 @@ pub fn is_prime_why_not(x: i32) -> bool {
 /// # Examples
 ///
 /// ```
-/// use prime::get_next_prime_number;
+/// use primapalooza::get_next_prime_number;
 /// 
-/// println!("{}", prime::get_next_prime_number(9));
+/// println!("{}", primapalooza::get_next_prime_number(9));
 /// 
 pub fn get_next_prime_number(n:i32) -> i32 {
     //println!("{}", n);
@@ -156,9 +162,9 @@ pub fn get_next_prime_number(n:i32) -> i32 {
 /// # Examples
 ///
 /// ```
-/// use prime::prime_factorization;
+/// use primapalooza::prime_factorization;
 /// 
-/// println!("{:?}", prime::prime_factorization(168));
+/// println!("{:?}", primapalooza::prime_factorization(168));
 /// 
 pub fn prime_factorization(n:i32) -> Vec<i64> {
     let mut x:i64 = n as i64;
@@ -183,9 +189,9 @@ pub fn prime_factorization(n:i32) -> Vec<i64> {
 /// # Examples
 ///
 /// ```
-/// use prime::greatest_common_factor;
+/// use primapalooza::greatest_common_factor;
 /// 
-/// println!("{}", prime::greatest_common_factor(18,24));
+/// println!("{}", primapalooza::greatest_common_factor(18,24));
 /// 
 pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
     let mut vec_x = prime_factorization(x);
@@ -205,5 +211,24 @@ pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
         return_value = return_value * k;    
     }
     return return_value;
+}
+
+
+/// Perform a least common multiple(lcm) calculation.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::least_common_multiple;
+/// 
+/// println!("{}", primapalooza::least_common_multiple(18,24));
+/// 
+pub fn least_common_multiple(x:i32, y:i32) -> i32 {
+    let gcf = greatest_common_factor(x, y);
+    if x % gcf < 1 {
+        (x/gcf) * y
+    } else {
+        (y/gcf) * x
+    }
 }
 
