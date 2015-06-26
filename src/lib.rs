@@ -52,6 +52,10 @@ fn get_next_prime_number_test() {
     assert_eq!(79, get_next_prime_number(73));
 }
 
+#[test]
+fn greatest_common_factor_test() {
+    assert_eq!(6, greatest_common_factor(18,24));
+}
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -172,3 +176,34 @@ pub fn prime_factorization(n:i32) -> Vec<i64> {
     return_value.push(x);
     return return_value;
 }
+
+
+/// Perform a greatest common factor(gcf) calculation.
+///
+/// # Examples
+///
+/// ```
+/// use prime::greatest_common_factor;
+/// 
+/// println!("{}", prime::greatest_common_factor(18,24));
+/// 
+pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
+    let mut vec_x = prime_factorization(x);
+    let mut vec_y = prime_factorization(y);
+    vec_x.dedup();
+    vec_y.dedup();
+    let mut m:Vec<i32> = Vec::new();
+    for p in vec_x.iter() {
+        for q in vec_y.iter() {
+            if p == q {
+                m.push(*p as i32);
+            }
+        }
+    }
+    let mut return_value = 1;
+    for k in &m {
+        return_value = return_value * k;    
+    }
+    return return_value;
+}
+
