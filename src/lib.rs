@@ -82,9 +82,6 @@ fn number_of_primes_test() {
 /// println!("{}", primapalooza::is_prime(5));
 /// 
 pub fn is_prime(x: i32) -> bool {
-    if x == 1 {
-        return false;
-    }
     let mut start: i64 = 2;
     while start <= (x as f64).sqrt() as i64 {
         if (x as i64) % start < 1 {
@@ -251,7 +248,11 @@ pub fn least_common_multiple(x:i32, y:i32) -> i32 {
 /// println!("{}", primapalooza::number_of_primes(1, 3500));
 /// 
 pub fn number_of_primes(x: i32, y: i32) -> i32 {
-    let n = y - x;
-    let nop = (n as f64)/((n as f64).ln() - 1.08366);
-    return nop as i32;
+    let mut z = 0;
+    for n in x..y {
+        if is_prime(n) {
+            z += 1
+        }
+    }
+    return z;
 }
