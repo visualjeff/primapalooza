@@ -62,6 +62,11 @@ fn least_common_multiple_test() {
     assert_eq!(90, least_common_multiple(18,30));
 }
 
+#[test]
+fn number_of_primes_test() {
+    assert_eq!(494, number_of_primes(1,3500));
+}
+
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -191,7 +196,7 @@ pub fn prime_factorization(n:i32) -> Vec<i64> {
 /// ```
 /// use primapalooza::greatest_common_factor;
 /// 
-/// println!("{}", primapalooza::greatest_common_factor(18,24));
+/// println!("{}", primapalooza::greatest_common_factor(18, 24));
 /// 
 pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
     let mut vec_x = prime_factorization(x);
@@ -221,7 +226,7 @@ pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
 /// ```
 /// use primapalooza::least_common_multiple;
 /// 
-/// println!("{}", primapalooza::least_common_multiple(18,24));
+/// println!("{}", primapalooza::least_common_multiple(18, 24));
 /// 
 pub fn least_common_multiple(x:i32, y:i32) -> i32 {
     let gcf = greatest_common_factor(x, y);
@@ -232,3 +237,18 @@ pub fn least_common_multiple(x:i32, y:i32) -> i32 {
     }
 }
 
+
+/// Number of prime numbers within a range.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::number_of_primes;
+/// 
+/// println!("{}", primapalooza::number_of_primes(1, 3500));
+/// 
+pub fn number_of_primes(x: i32, y: i32) -> i32 {
+    let n = y - x;
+    let nop = (n as f64)/((n as f64).ln() - 1.08366);
+    return nop as i32;
+}
