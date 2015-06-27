@@ -82,6 +82,9 @@ fn number_of_primes_test() {
 /// println!("{}", primapalooza::is_prime(5));
 /// 
 pub fn is_prime(x: i32) -> bool {
+    if x == 1 {
+        return false;
+    }
     let mut start: i64 = 2;
     while start <= (x as f64).sqrt() as i64 {
         if (x as i64) % start < 1 {
