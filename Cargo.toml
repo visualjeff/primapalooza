@@ -1,6 +1,6 @@
 [package]
 name = "primapalooza"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["visualjeff@linux.com"]
 description = "prime number calculations implemented in rust"
 documentation = "https://github.com/visualjeff/primapalooza"

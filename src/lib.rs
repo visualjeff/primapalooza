@@ -9,8 +9,8 @@ use test::Bencher;
 
 #[test]
 fn is_it_a_prime_number() {
-    assert_eq!(true, is_prime(5));
-    assert_eq!(true, is_prime_why_not(5));
+    assert!(is_prime(5));
+    assert!(is_prime_why_not(5));
 }
 
 #[test]
@@ -29,6 +29,11 @@ fn zero_is_not_a_prime_number() {
 fn one_is_not_a_prime_number() {
     assert_eq!(false, is_prime(1));
     assert_eq!(false, is_prime_why_not(1));
+}
+
+#[test]
+fn negative_is_not_a_prime_number() {
+    assert_eq!(false, is_prime(-5));
 }
 
 #[test]
@@ -64,7 +69,7 @@ fn least_common_multiple_test() {
 
 #[test]
 fn number_of_primes_test() {
-    assert_eq!(494, number_of_primes(1,3500));
+    assert_eq!(489, number_of_primes(1,3500));
 }
 
 //#[bench]
