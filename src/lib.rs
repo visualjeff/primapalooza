@@ -72,6 +72,12 @@ fn number_of_primes_test() {
     assert_eq!(489, number_of_primes(1,3500));
 }
 
+#[test]
+fn generate_primes_test() {
+    let result = generate_primes(3500);
+    assert_eq!(489, result.len());
+}
+
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -260,4 +266,127 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
         }
     }
     return z;
+}
+
+/// Generate a collection of prime numbers up to a particular limit.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::generate_primes;
+/// 
+/// let results = primapalooza::generate_primes(1000);
+/// for x in results.iter() {
+///     println!("{}", x);
+/// }
+pub fn generate_primes(limit: i64) -> Vec<i64> {
+    let sqrtlim: i64 = (limit as f64).sqrt() as i64;
+    let mut pp: i64 = 2; 
+    let mut ss = vec![pp];
+    let mut ep = vec![pp];
+    pp += 1;
+    let mut rss = vec![ss[0]];
+    let mut tp = vec![pp];
+    let mut i = 0;
+    let ssr = rss[i] * tp[0];
+    rss.push(ssr);
+    let mut xp = vec![];
+    pp += ss[0];
+    let mut npp: i64 = pp;
+    tp.push(npp);
+    while npp < limit {
+        i += 1;
+        while npp < (rss[i] + 1) {
+            for n in ss.iter() {
+                npp = pp + n;
+                if npp > limit {
+                    break;
+                }
+                if npp <= (rss[i] + 1) {
+                    pp = npp;
+                }
+                let sqrtnpp = (npp as f64).sqrt();
+                let mut test = true;
+                for q in tp.iter() {
+                    if sqrtnpp < (*q as f64) { 
+                        break;
+                    } else if npp % q == 0 {
+                        test = false;
+                        break;
+                    }
+                }
+                if test {
+                    if npp <= sqrtlim { 
+                        tp.push(npp);
+                    } else { 
+                        xp.push(npp);
+                    }
+                }
+            }
+            if npp > limit { 
+                break;
+            }
+        }
+        if npp > limit { 
+            break;
+        }
+        let mut lrpp = pp;
+        let mut nss = vec![];
+        while pp < (rss[i] + 1) * 2 - 1 {
+            for n in ss.iter() {
+                npp = pp + n;
+                    if npp > limit { 
+                        break;
+                    }
+                    let sqrtnpp = (npp as f64).sqrt();
+                    let mut test = true;
+                    for q in tp.iter() {
+                        if sqrtnpp < (*q as f64) { 
+                            break; 
+                        } else if npp % q == 0 {
+                            test = false;
+                            break;
+                        }
+                    }
+                    if test {
+                        if npp <= sqrtlim { 
+                            tp.push(npp);
+                        } else { 
+                            xp.push(npp);
+                        }
+                    }
+                    if npp % tp[0] != 0 {
+                        nss.push(npp - lrpp);
+                        lrpp = npp;
+                    }
+                    pp = npp;            
+                    if npp % tp[0] != 0 {
+                        nss.push(npp - lrpp);
+                        lrpp = npp;
+                    }
+                if npp > limit { 
+                    break;
+                }
+            }
+            if npp > limit { 
+                break;
+            }
+        }
+        ss = nss;             
+        ep.push(tp[0]);             
+        tp.remove(0);
+        let ssr = rss[i] * tp[0];
+        rss.push(ssr);
+        npp = lrpp;
+    }
+    ep.reverse();
+    for a in ep.iter() {
+        tp.insert(0, *a);
+    }
+    tp.reverse();
+    for a in tp.iter() {
+        xp.insert(0, *a);
+    }
+    xp.dedup();
+    return xp;
 }
