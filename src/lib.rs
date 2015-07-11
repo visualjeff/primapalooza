@@ -73,6 +73,11 @@ fn number_of_primes_test() {
 }
 
 #[test]
+fn number_of_factors_test() {
+    assert_eq!(12, number_of_factors(72));
+}
+
+#[test]
 fn generate_primes_test() {
     let result = generate_primes(3500);
     assert_eq!(489, result.len());
@@ -266,6 +271,32 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
         }
     }
     return z;
+}
+
+/// The number of factors in a number.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::number_of_factors;
+/// 
+/// println!("{}", primapalooza::number_of_factors(72));
+/// 
+pub fn number_of_factors(n: i32) -> i32 {
+    let prime_factors = prime_factorization(n);
+    let mut factors = prime_factors.clone();
+    factors.dedup();
+    let mut return_value = 1;
+    for f in factors.iter() {
+        let mut count = 1;
+        for pf in prime_factors.iter() {
+            if pf == f {
+                count += 1;
+            }
+        }
+        return_value = return_value * count;
+    }
+    return return_value;
 }
 
 /// Generate a collection of prime numbers up to a particular limit.
