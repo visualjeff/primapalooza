@@ -4,7 +4,7 @@ Name says it all.  Handy prime number functions implemented in Rust.
 Add primapalooza dependency to your project Cargo.toml file:
 ```json
 [dependencies]
-primapalooza = "0.1.6"
+primapalooza = "0.1.7"
 ```
 
 Add primapalooza to your project's source code:
@@ -25,5 +25,6 @@ fn greatest_common_factor(x:i32, y:i32) -> i32
 fn least_common_multiple(x:i32, y:i32) -> i32
 fn number_of_primes(x: i32, y: i32) -> i32
 fn number_of_factors(n: i32) -> i32
+fn mersenne_prime(n: i32) -> i32
 fn generate_primes(limit: i64) -> Vec<i64>
 ```

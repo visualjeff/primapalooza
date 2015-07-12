@@ -20,23 +20,6 @@ fn should_not_be_a_prime_number() {
 }
 
 #[test]
-fn zero_is_not_a_prime_number() {
-    assert_eq!(false, is_prime(0));
-    assert_eq!(false, is_prime_why_not(0));
-}
-
-#[test]
-fn one_is_not_a_prime_number() {
-    assert_eq!(false, is_prime(1));
-    assert_eq!(false, is_prime_why_not(1));
-}
-
-#[test]
-fn negative_is_not_a_prime_number() {
-    assert_eq!(false, is_prime(-5));
-}
-
-#[test]
 fn prime_factorization_test(){
     let mut vec = Vec::new();
     vec.push(2);
@@ -78,6 +61,12 @@ fn number_of_factors_test() {
 }
 
 #[test]
+fn mersenne_prime_test() {
+    let mersenne_prime = mersenne_prime(5);
+    assert_eq!(31, mersenne_prime);
+}
+
+#[test]
 fn generate_primes_test() {
     let result = generate_primes(3500);
     assert_eq!(489, result.len());
@@ -98,6 +87,9 @@ fn generate_primes_test() {
 /// println!("{}", primapalooza::is_prime(5));
 /// 
 pub fn is_prime(x: i32) -> bool {
+    if x < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let mut start: i64 = 2;
     while start <= (x as f64).sqrt() as i64 {
         if (x as i64) % start < 1 {
@@ -126,6 +118,9 @@ pub fn is_prime(x: i32) -> bool {
 /// println!("{}", primapalooza::is_prime_why_not(9));
 /// 
 pub fn is_prime_why_not(x: i32) -> bool {
+    if x < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let mut start: i64 = 2;
     let mut return_value: bool = true;
     while start <= (x as f64).sqrt() as i64 {
@@ -160,7 +155,9 @@ pub fn is_prime_why_not(x: i32) -> bool {
 /// println!("{}", primapalooza::get_next_prime_number(9));
 /// 
 pub fn get_next_prime_number(n:i32) -> i32 {
-    //println!("{}", n);
+    if n < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let mut x: i32 = n;
     x += 1;
     while !is_prime(x) {
@@ -188,6 +185,9 @@ pub fn get_next_prime_number(n:i32) -> i32 {
 /// println!("{:?}", primapalooza::prime_factorization(168));
 /// 
 pub fn prime_factorization(n:i32) -> Vec<i64> {
+    if n < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let mut x:i64 = n as i64;
     let mut return_value = Vec::new();
     let mut start:i64 = 2;
@@ -215,6 +215,9 @@ pub fn prime_factorization(n:i32) -> Vec<i64> {
 /// println!("{}", primapalooza::greatest_common_factor(18, 24));
 /// 
 pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
+    if x < 2 || y < 2 {
+        panic!("requires a positive integers greater then 1");
+    }
     let mut vec_x = prime_factorization(x);
     let mut vec_y = prime_factorization(y);
     vec_x.dedup();
@@ -245,6 +248,9 @@ pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
 /// println!("{}", primapalooza::least_common_multiple(18, 24));
 /// 
 pub fn least_common_multiple(x:i32, y:i32) -> i32 {
+    if x < 2 || y < 2 {
+        panic!("requires a positive integers greater then 1");
+    }
     let gcf = greatest_common_factor(x, y);
     if x % gcf < 1 {
         (x/gcf) * y
@@ -264,8 +270,18 @@ pub fn least_common_multiple(x:i32, y:i32) -> i32 {
 /// println!("{}", primapalooza::number_of_primes(1, 3500));
 /// 
 pub fn number_of_primes(x: i32, y: i32) -> i32 {
+    if x < 1 {
+        panic!("requires a positive integers");
+    }
+    if y < 2 {
+        panic!("requires a positive integer greater than 1");
+    }
+    let mut a = x;
+    if a == 1 {
+        a += 1;
+    }
     let mut z = 0;
-    for n in x..y {
+    for n in a..y {
         if is_prime(n) {
             z += 1
         }
@@ -283,6 +299,9 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
 /// println!("{}", primapalooza::number_of_factors(72));
 /// 
 pub fn number_of_factors(n: i32) -> i32 {
+    if n < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let prime_factors = prime_factorization(n);
     let mut factors = prime_factors.clone();
     factors.dedup();
@@ -299,6 +318,23 @@ pub fn number_of_factors(n: i32) -> i32 {
     return return_value;
 }
 
+/// Generate a mersenne prime from a prime number.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::mersenne_prime;
+/// 
+/// let results = primapalooza::mersenne_prime(5);
+pub fn mersenne_prime(n: i32) -> i32 {
+    if n < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
+    let two:i32 = 2;
+    let result:i32 = (two.pow(n as u32)) - 1;
+    return result;
+}
+
 /// Generate a collection of prime numbers up to a particular limit.
 ///
 /// # Examples
@@ -311,6 +347,9 @@ pub fn number_of_factors(n: i32) -> i32 {
 ///     println!("{}", x);
 /// }
 pub fn generate_primes(limit: i64) -> Vec<i64> {
+    if limit < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
     let sqrtlim: i64 = (limit as f64).sqrt() as i64;
     let mut pp: i64 = 2; 
     let mut ss = vec![pp];
