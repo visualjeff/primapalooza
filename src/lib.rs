@@ -72,6 +72,12 @@ fn mersenne_prime_test() {
 }
 
 #[test]
+fn perfect_number_test() {
+    assert!(perfect_number(5));
+    assert_eq!(false, perfect_number(11));
+}
+
+#[test]
 fn generate_primes_test() {
     let result = generate_primes(3500);
     assert_eq!(489, result.len());
@@ -353,6 +359,18 @@ pub fn mersenne_prime(n: i32) -> i32 {
     let two:i32 = 2;
     let result:i32 = (two.pow(n as u32)) - 1;
     return result;
+}
+
+/// Is a number a perfect number.  The sum of its factors is the number itself.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::perfect_number;
+/// 
+/// println!("{}", primapalooza::perfect_number(5));
+pub fn perfect_number(n:i32) -> bool {
+    return is_prime(mersenne_prime(n));
 }
 
 /// Generate a collection of prime numbers up to a particular limit.
