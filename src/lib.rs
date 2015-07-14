@@ -41,6 +41,11 @@ fn get_next_prime_number_test() {
 }
 
 #[test]
+fn get_twin_primes_test() {
+    assert_eq!((5, 7), get_twin_primes(5));
+}
+
+#[test]
 fn greatest_common_factor_test() {
     assert_eq!(6, greatest_common_factor(18,24));
 }
@@ -166,6 +171,21 @@ pub fn get_next_prime_number(n:i32) -> i32 {
     return x;
 }
 
+/// Returns the twin primes.  A pair of prime numbers that differ by 2.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::get_twin_primes;
+/// 
+/// println!("{:?}", primapalooza::get_twin_primes(5));
+/// 
+pub fn get_twin_primes(n: i32) -> (i32, i32){
+    if !is_prime(n) {
+        panic!("prime number required as input");
+    }
+    return (n, get_next_prime_number(n));
+}
 
 //#[bench]
 //fn bench_prime_factorization(b: &mut Bencher) {
