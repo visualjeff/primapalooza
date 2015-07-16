@@ -73,8 +73,24 @@ fn mersenne_prime_test() {
 
 #[test]
 fn perfect_number_test() {
+    //assert_eq!(false, perfect_number(1));
+    assert!(perfect_number(2));
+    assert!(perfect_number(3));
+    assert_eq!(false, perfect_number(4));
     assert!(perfect_number(5));
+    assert_eq!(false, perfect_number(6));
+    assert!(perfect_number(7));
+    assert_eq!(false, perfect_number(8));
+    assert_eq!(false, perfect_number(9));
+    assert_eq!(false, perfect_number(10));
     assert_eq!(false, perfect_number(11));
+    assert_eq!(false, perfect_number(12));
+    assert!(perfect_number(13));
+}
+
+#[test]
+fn get_nth_prime_test(){
+    assert_eq!(853, get_nth_prime(29));
 }
 
 #[test]
@@ -371,6 +387,22 @@ pub fn mersenne_prime(n: i32) -> i32 {
 /// println!("{}", primapalooza::perfect_number(5));
 pub fn perfect_number(n:i32) -> bool {
     return is_prime(mersenne_prime(n));
+}
+
+
+/// Get the nth prime using Euler's. Up to 41st prime.
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::get_nth_prime;
+/// 
+/// println!("{}", primapalooza::get_nth_prime(5));
+pub fn get_nth_prime(n:i32) -> i32 {
+    if n > 41 {
+        panic!("n needs to be less than 41");
+    }
+    return (n.pow(2) - n) + 41;
 }
 
 /// Generate a collection of prime numbers up to a particular limit.
