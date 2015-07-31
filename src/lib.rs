@@ -99,6 +99,17 @@ fn generate_primes_test() {
     assert_eq!(489, result.len());
 }
 
+#[test]
+fn is_lucky_number_test() {
+    assert!(is_lucky_number(2));
+    assert!(is_lucky_number(3));
+    assert!(is_lucky_number(5));
+    assert!(is_lucky_number(11));
+    assert_eq!(false, is_lucky_number(13));
+    assert!(is_lucky_number(17));
+    assert!(is_lucky_number(41));
+}
+
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -529,4 +540,26 @@ pub fn generate_primes(limit: i64) -> Vec<i64> {
     }
     xp.dedup();
     return xp;
+}
+
+
+/// According to Euler is your prime number a lucky number?
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::is_lucky_number;
+/// 
+/// println!("{}", primapalooza::is_lucky_number(5));
+pub fn is_lucky_number(p:i32) -> bool {
+    if !is_prime(p) {
+        panic!("prime number required as input");
+    }
+    let mut n:i32 = 1;
+    let mut result = true;
+    while (n < p) && (result == true) {
+        result = is_prime((n.pow(2) - n) + p);
+        n += 1;
+    }
+    return result;
 }
