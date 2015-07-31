@@ -4,7 +4,7 @@ Name says it all.  Handy prime number functions implemented in Rust.
 Add primapalooza dependency to your project Cargo.toml file:
 ```json
 [dependencies]
-primapalooza = "0.1.9"
+primapalooza = "0.2.0"
 ```
 
 Add primapalooza to your project's source code:
