@@ -19,6 +19,7 @@ Methods signatures:
 ```rust
 fn is_prime(i32) -> bool
 fn is_prime_why_not(i32) -> bool
+fn perfect_number(n:i32) -> bool
 fn get_next_prime_number(i32) -> i32
 fn get_twin_primes(i32) -> (i32, i32)
 fn prime_factorization(i32) -> Vec<i64>
