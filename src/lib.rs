@@ -62,13 +62,15 @@ fn number_of_primes_test() {
 
 #[test]
 fn number_of_factors_test() {
+    assert_eq!(6, number_of_factors(28));
     assert_eq!(12, number_of_factors(72));
+    assert_eq!(14, number_of_factors(8128));
 }
 
 #[test]
 fn mersenne_prime_test() {
-    let mersenne_prime = mersenne_prime(5);
-    assert_eq!(31, mersenne_prime);
+    assert_eq!(31, mersenne_prime(5));
+    assert_eq!(2147483647, mersenne_prime(31));
 }
 
 #[test]
@@ -86,6 +88,8 @@ fn perfect_number_test() {
     assert_eq!(false, perfect_number(11));
     assert_eq!(false, perfect_number(12));
     assert!(perfect_number(13));
+    assert!(perfect_number(31));
+    //assert!(perfect_number(41));
 }
 
 #[test]
@@ -110,6 +114,14 @@ fn is_lucky_number_test() {
     assert!(is_lucky_number(41));
 }
 
+#[test]
+fn is_triangular_number_test() {
+    assert!(is_triangular_number(3));
+    assert!(is_triangular_number(7));
+    assert!(is_triangular_number(13));
+    assert!(is_triangular_number(31));
+}
+
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
 //    b.iter(|| is_prime(rand::random::<i32>()));
@@ -128,7 +140,7 @@ pub fn is_prime(x: i32) -> bool {
     if x < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let mut start: i64 = 2;
+    let mut start:i64 = 2;
     while start <= (x as f64).sqrt() as i64 {
         if (x as i64) % start < 1 {
             return false;
@@ -312,7 +324,6 @@ pub fn least_common_multiple(x:i32, y:i32) -> i32 {
     }
 }
 
-
 /// Number of prime numbers within a range.
 ///
 /// # Examples
@@ -342,6 +353,14 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
     return z;
 }
 
+//#[bench]
+//fn bench_number_of_factors(b: &mut Bencher) {
+//    b.iter(|| 
+//           for n in (2..10000) {
+//               test::black_box(number_of_factors(n));
+//           });
+//}
+
 /// The number of factors in a number.
 ///
 /// # Examples
@@ -351,6 +370,36 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
 /// 
 /// println!("{}", primapalooza::number_of_factors(72));
 /// 
+
+pub fn number_of_factors(x: i32) -> i32 {
+    if x < 2 {
+        panic!("requires a positive integer greater then 1");
+    }
+    let mut f = Vec::new();
+    let pf = prime_factorization(x);
+    let mut count = 1;
+    let mut previous_pf = 0;
+    for z in pf {
+        if z != previous_pf {
+            if previous_pf != 0 {
+                f.push(count);
+            }
+            count = 1;
+        } else {
+            count += 1;
+        }
+        previous_pf = z;
+    }
+    f.push(count);
+
+    let mut nof = 1;
+    for i in f {
+        nof = nof * (i + 1)
+    }
+    return nof;
+}
+
+/* Alternate Implementation
 pub fn number_of_factors(n: i32) -> i32 {
     if n < 2 {
         panic!("requires a positive integer greater then 1");
@@ -370,6 +419,7 @@ pub fn number_of_factors(n: i32) -> i32 {
     }
     return return_value;
 }
+*/
 
 /// Generate a mersenne prime from a prime number.
 ///
@@ -383,9 +433,9 @@ pub fn mersenne_prime(n: i32) -> i32 {
     if n < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let two:i32 = 2;
-    let result:i32 = (two.pow(n as u32)) - 1;
-    return result;
+    let two:usize = 2;
+    let result:usize = (two.pow(n as u32)) - 1;
+    return result as i32;
 }
 
 /// Is a number a perfect number.  The sum of its factors is the number itself.
@@ -562,4 +612,16 @@ pub fn is_lucky_number(p:i32) -> bool {
         n += 1;
     }
     return result;
+}
+
+/// Is_this_number a triangular number?
+///
+/// # Examples
+///
+/// ```
+/// use primapalooza::is_triangular_number;
+/// 
+/// println!("{}", primapalooza::is_triangular_number(5));
+pub fn is_triangular_number(n: i32) -> bool {
+    perfect_number(n)
 }

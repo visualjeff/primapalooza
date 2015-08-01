@@ -31,4 +31,5 @@ fn mersenne_prime(i32) -> i32
 fn get_nth_prime(i32) -> i32
 fn generate_primes(i64) -> Vec<i64>
 fn is_lucky_number(i32) -> bool
+fn is_triangular_number(i32) -> bool
 ```
