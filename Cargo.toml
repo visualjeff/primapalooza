@@ -10,5 +10,6 @@ readme = "README.md"
 keywords = ["prime", "common", "factor", "gcf", "lcm"]
 license = "MIT"
 
-# [dependencies]
+[dependencies]
 # rand = "0.3.8"
+num = "0.1.27"
