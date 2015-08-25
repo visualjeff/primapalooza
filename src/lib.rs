@@ -4,7 +4,7 @@
 #![feature(test)]
 //extern crate rand;
 extern crate test;
-
+extern crate num;
 use test::Bencher;
 
 #[test]
@@ -70,7 +70,7 @@ fn number_of_factors_test() {
 #[test]
 fn mersenne_prime_test() {
     assert_eq!(31, mersenne_prime(5));
-    assert_eq!(2147483647, mersenne_prime(31));
+    assert_eq!(1125899906842623, mersenne_prime(50));
 }
 
 #[test]
@@ -89,7 +89,8 @@ fn perfect_number_test() {
     assert_eq!(false, perfect_number(12));
     assert!(perfect_number(13));
     assert!(perfect_number(31));
-    //assert!(perfect_number(41));
+    assert_eq!(false, perfect_number(41));
+    //assert!(perfect_number(262144));
 }
 
 #[test]
@@ -124,7 +125,7 @@ fn is_triangular_number_test() {
 
 //#[bench]
 //fn bench_is_prime(b: &mut Bencher) {
-//    b.iter(|| is_prime(rand::random::<i32>()));
+//    b.iter(|| is_prime(rand::random::<i64>()));
 //}
 
 /// Tests for prime numbers.
@@ -136,19 +137,20 @@ fn is_triangular_number_test() {
 /// 
 /// println!("{}", primapalooza::is_prime(5));
 /// 
-pub fn is_prime(x: i32) -> bool {
-    if x < 2 {
-        panic!("requires a positive integer greater then 1");
-    }
-    let mut start:i64 = 2;
-    while start <= (x as f64).sqrt() as i64 {
-        if (x as i64) % start < 1 {
-            return false;
-        }
-        start += 1;
-    }
-    return x > 1;
+pub fn is_prime(x: usize) -> bool {
+     if x < 2 {
+         panic!("requires a positive integer greater then 1");
+     }
+     let mut start: usize = 2;
+     while start <= (x as f64).sqrt() as usize {
+         if x % start < 1 {
+             return false;
+         }
+         start += 1;
+     }
+     return x > 1;
 }
+
 
 //#[bench]
 //fn bench_is_prime_why_not(b: &mut Bencher) {
@@ -167,16 +169,16 @@ pub fn is_prime(x: i32) -> bool {
 /// 
 /// println!("{}", primapalooza::is_prime_why_not(9));
 /// 
-pub fn is_prime_why_not(x: i32) -> bool {
+pub fn is_prime_why_not(x: u64) -> bool {
     if x < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let mut start: i64 = 2;
+    let mut start: u64 = 2;
     let mut return_value: bool = true;
-    while start <= (x as f64).sqrt() as i64 {
-        let m = (x as i64) % start; 
+    while start <= (x as f64).sqrt() as u64 {
+        let m = (x as u64) % start; 
         if m < 1 {
-            println!("{} is divisible by {}.  {} * {} = {}", x, start, start, ((x as i64) / start), x);
+            println!("{} is divisible by {}.  {} * {} = {}", x, start, start, ((x as u64) / start), x);
             return_value = false;
         }
         start += 1;
@@ -204,11 +206,11 @@ pub fn is_prime_why_not(x: i32) -> bool {
 /// 
 /// println!("{}", primapalooza::get_next_prime_number(9));
 /// 
-pub fn get_next_prime_number(n:i32) -> i32 {
+pub fn get_next_prime_number(n:usize) -> usize {
     if n < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let mut x: i32 = n;
+    let mut x: usize = n;
     x += 1;
     while !is_prime(x) {
         x += 1;
@@ -225,7 +227,7 @@ pub fn get_next_prime_number(n:i32) -> i32 {
 /// 
 /// println!("{:?}", primapalooza::get_twin_primes(5));
 /// 
-pub fn get_twin_primes(n: i32) -> (i32, i32){
+pub fn get_twin_primes(n: usize) -> (usize, usize){
     if !is_prime(n) {
         panic!("prime number required as input");
     }
@@ -249,21 +251,20 @@ pub fn get_twin_primes(n: i32) -> (i32, i32){
 /// 
 /// println!("{:?}", primapalooza::prime_factorization(168));
 /// 
-pub fn prime_factorization(n:i32) -> Vec<i64> {
+pub fn prime_factorization(n:usize) -> Vec<usize> {
     if n < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let mut x:i64 = n as i64;
+    let mut x:usize = n;
     let mut return_value = Vec::new();
-    let mut start:i64 = 2;
-    while !is_prime(x as i32) {
+    let mut start:usize = 2;
+    while !is_prime(x) {
         let m = x % start;
         if m < 1 {
             return_value.push(start);
             x = x / start;
         } else {
-            let s = start as i32;
-            start = get_next_prime_number(s) as i64;                                                                  }
+            start = get_next_prime_number(start);                                                                  }
     }
     return_value.push(x);
     return return_value;
@@ -279,7 +280,7 @@ pub fn prime_factorization(n:i32) -> Vec<i64> {
 /// 
 /// println!("{}", primapalooza::greatest_common_factor(18, 24));
 /// 
-pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
+pub fn greatest_common_factor(x:usize, y:usize) -> usize {
     if x < 2 || y < 2 {
         panic!("requires a positive integers greater then 1");
     }
@@ -287,11 +288,11 @@ pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
     let mut vec_y = prime_factorization(y);
     vec_x.dedup();
     vec_y.dedup();
-    let mut m:Vec<i32> = Vec::new();
+    let mut m:Vec<usize> = Vec::new();
     for p in vec_x.iter() {
         for q in vec_y.iter() {
             if p == q {
-                m.push(*p as i32);
+                m.push(*p);
             }
         }
     }
@@ -312,7 +313,7 @@ pub fn greatest_common_factor(x:i32, y:i32) -> i32 {
 /// 
 /// println!("{}", primapalooza::least_common_multiple(18, 24));
 /// 
-pub fn least_common_multiple(x:i32, y:i32) -> i32 {
+pub fn least_common_multiple(x:usize, y:usize) -> usize {
     if x < 2 || y < 2 {
         panic!("requires a positive integers greater then 1");
     }
@@ -333,7 +334,7 @@ pub fn least_common_multiple(x:i32, y:i32) -> i32 {
 /// 
 /// println!("{}", primapalooza::number_of_primes(1, 3500));
 /// 
-pub fn number_of_primes(x: i32, y: i32) -> i32 {
+pub fn number_of_primes(x: usize, y: usize) -> usize {
     if x < 1 {
         panic!("requires a positive integers");
     }
@@ -370,8 +371,7 @@ pub fn number_of_primes(x: i32, y: i32) -> i32 {
 /// 
 /// println!("{}", primapalooza::number_of_factors(72));
 /// 
-
-pub fn number_of_factors(x: i32) -> i32 {
+pub fn number_of_factors(x: usize) -> usize {
     if x < 2 {
         panic!("requires a positive integer greater then 1");
     }
@@ -399,27 +399,6 @@ pub fn number_of_factors(x: i32) -> i32 {
     return nof;
 }
 
-/* Alternate Implementation
-pub fn number_of_factors(n: i32) -> i32 {
-    if n < 2 {
-        panic!("requires a positive integer greater then 1");
-    }
-    let prime_factors = prime_factorization(n);
-    let mut factors = prime_factors.clone();
-    factors.dedup();
-    let mut return_value = 1;
-    for f in factors.iter() {
-        let mut count = 1;
-        for pf in prime_factors.iter() {
-            if pf == f {
-                count += 1;
-            }
-        }
-        return_value = return_value * count;
-    }
-    return return_value;
-}
-*/
 
 /// Generate a mersenne prime from a prime number.
 ///
@@ -429,14 +408,15 @@ pub fn number_of_factors(n: i32) -> i32 {
 /// use primapalooza::mersenne_prime;
 /// 
 /// let results = primapalooza::mersenne_prime(5);
-pub fn mersenne_prime(n: i32) -> i32 {
+pub fn mersenne_prime(n: usize) -> usize {
     if n < 2 {
         panic!("requires a positive integer greater then 1");
     }
     let two:usize = 2;
-    let result:usize = (two.pow(n as u32)) - 1;
-    return result as i32;
+    let result = num::pow(two, n as usize) - 1;
+    return result;
 }
+
 
 /// Is a number a perfect number.  The sum of its factors is the number itself.
 ///
@@ -446,8 +426,8 @@ pub fn mersenne_prime(n: i32) -> i32 {
 /// use primapalooza::perfect_number;
 /// 
 /// println!("{}", primapalooza::perfect_number(5));
-pub fn perfect_number(n:i32) -> bool {
-    return is_prime(mersenne_prime(n));
+pub fn perfect_number(n:usize) -> bool {
+    return is_prime(mersenne_prime(n as usize));
 }
 
 
@@ -459,7 +439,7 @@ pub fn perfect_number(n:i32) -> bool {
 /// use primapalooza::get_nth_prime;
 /// 
 /// println!("{}", primapalooza::get_nth_prime(5));
-pub fn get_nth_prime(n:i32) -> i32 {
+pub fn get_nth_prime(n:usize) -> usize {
     if n > 41 {
         panic!("n needs to be less than 41");
     }
@@ -477,12 +457,12 @@ pub fn get_nth_prime(n:i32) -> i32 {
 /// for x in results.iter() {
 ///     println!("{}", x);
 /// }
-pub fn generate_primes(limit: i64) -> Vec<i64> {
+pub fn generate_primes(limit: usize) -> Vec<usize> {
     if limit < 2 {
         panic!("requires a positive integer greater then 1");
     }
-    let sqrtlim: i64 = (limit as f64).sqrt() as i64;
-    let mut pp: i64 = 2; 
+    let sqrtlim:usize = (limit as f64).sqrt() as usize;
+    let mut pp:usize = 2; 
     let mut ss = vec![pp];
     let mut ep = vec![pp];
     pp += 1;
@@ -493,7 +473,7 @@ pub fn generate_primes(limit: i64) -> Vec<i64> {
     rss.push(ssr);
     let mut xp = vec![];
     pp += ss[0];
-    let mut npp: i64 = pp;
+    let mut npp: usize = pp;
     tp.push(npp);
     while npp < limit {
         i += 1;
@@ -601,11 +581,11 @@ pub fn generate_primes(limit: i64) -> Vec<i64> {
 /// use primapalooza::is_lucky_number;
 /// 
 /// println!("{}", primapalooza::is_lucky_number(5));
-pub fn is_lucky_number(p:i32) -> bool {
+pub fn is_lucky_number(p:usize) -> bool {
     if !is_prime(p) {
         panic!("prime number required as input");
     }
-    let mut n:i32 = 1;
+    let mut n:usize = 1;
     let mut result = true;
     while (n < p) && (result == true) {
         result = is_prime((n.pow(2) - n) + p);
@@ -622,6 +602,6 @@ pub fn is_lucky_number(p:i32) -> bool {
 /// use primapalooza::is_triangular_number;
 /// 
 /// println!("{}", primapalooza::is_triangular_number(5));
-pub fn is_triangular_number(n: i32) -> bool {
+pub fn is_triangular_number(n: usize) -> bool {
     perfect_number(n)
 }
