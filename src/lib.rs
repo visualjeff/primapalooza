@@ -1,11 +1,11 @@
+//#![feature(test)]
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
-#![feature(test)]
 //extern crate rand;
-extern crate test;
+//extern crate test;
 extern crate num;
-use test::Bencher;
+//use test::Bencher;
 
 #[test]
 fn is_it_a_prime_number() {
